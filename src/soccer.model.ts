@@ -2,7 +2,7 @@ export interface Soccer {
     "Name": string,
    "Nationality": string,
    "National_Position": string,
-   "National_Kit": number,
+   "National_Kit": number | null,
    "Club": string,
    "Club_Position": string,
    "Club_Kit": number,
