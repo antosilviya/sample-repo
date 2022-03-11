@@ -1,6 +1,6 @@
 import { Soccer } from "./soccer.model"
 
-export const players: Soccer[] = [
+const players: Soccer[] = [
     {
       "Name": "Cristiano Ronaldo",
       "Nationality": "Portugal",
@@ -3027,3 +3027,5 @@ export const players: Soccer[] = [
       "GK_Reflexes": 11
     }
    ]
+
+   export default players;
