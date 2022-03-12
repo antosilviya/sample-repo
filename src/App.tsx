@@ -7,12 +7,13 @@ import Plot from "react-plotly.js";
 
 function App() {
   let [state, setState] = useState({
-    soccerPlayers: players,
+    soccerPlayers: players.sort((a, b) => {
+      return a.Name > b.Name ? -1 : b.Name > a.Name ? 1 : 0;
+    }),
     selectedPlayer: {},
   });
 
-  let { soccerPlayers } = state;
-  let { selectedPlayer } = state;
+  let { soccerPlayers, selectedPlayer } = state;
 
   let detailedView = (name: string) => {
     console.log(name);
@@ -27,32 +28,63 @@ function App() {
       }
     });
     console.log(selectedPlayer);
+
+    let X: any = [];
+    let Y: any = [];
   };
 
   let barChart = (details: any) => {
     console.log(details);
 
+    console.log(
+      soccerPlayers.sort((a, b) => {
+        return a.Name > b.Name ? 1 : b.Name > a.Name ? -1 : 0;
+      })
+    );
+
     let X: any = [];
     let Y: any = [];
 
-    X = Object.keys(details);
-    Y = Object.values(details);
+    const plotData = (({
+      Ball_Control,
+      Dribbling,
+      Aggression,
+      Acceleration,
+      Speed,
+      Shot_Power,
+    }) => ({
+      Ball_Control,
+      Dribbling,
+      Aggression,
+      Acceleration,
+      Speed,
+      Shot_Power,
+    }))(details);
 
-    return (
-      <div>
-        <h5 className="text-center">{details.Name}</h5>
-        <Plot
-          data={[
-            {
-              type: "bar",
-              x: X,
-              y: Y,
-            },
-          ]}
-          layout={{ width: 400, height: 600 }}
-        ></Plot>
-      </div>
-    );
+    console.log(plotData);
+
+    X = Object.keys(plotData);
+
+    Y = Object.values(plotData);
+    console.log(X);
+    console.log("true", details);
+    if (Object.keys(details).length > 0) {
+      return (
+        <div>
+          <h5 className="text-center">{details.Name}</h5>
+          <Plot
+            data={[
+              {
+                type: "bar",
+                x: X,
+                y: Y,
+              },
+            ]}
+            layout={{ width: 400, height: 600 }}
+          ></Plot>
+        </div>
+      );
+    }
   };
 
   return (
@@ -98,6 +130,7 @@ function App() {
             </table>
           </div>
         </div>
+
         <div className="col-md-4 mt-5">{barChart(selectedPlayer)}</div>
       </div>
     </div>
