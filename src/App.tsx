@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Soccer } from "./soccer.model";
+
 import players from "./soccer";
-import "./App.css";
-import BarChart from "./barchat";
+
 import Plot from "react-plotly.js";
 
 function App() {
@@ -16,10 +15,8 @@ function App() {
   let { soccerPlayers, selectedPlayer } = state;
 
   let detailedView = (name: string) => {
-    console.log(name);
     soccerPlayers.map((player) => {
       if (player.Name === name) {
-        // console.log(player);
         setState({
           ...state,
           selectedPlayer: player,
@@ -27,23 +24,13 @@ function App() {
         return player;
       }
     });
-    console.log(selectedPlayer);
-
-    let X: any = [];
-    let Y: any = [];
   };
 
+  // Visualization Chart
+
   let barChart = (details: any) => {
-    console.log(details);
-
-    console.log(
-      soccerPlayers.sort((a, b) => {
-        return a.Name > b.Name ? 1 : b.Name > a.Name ? -1 : 0;
-      })
-    );
-
-    let X: any = [];
-    let Y: any = [];
+    let X: string[] = [];
+    let Y: number[] = [];
 
     const plotData = (({
       Ball_Control,
@@ -61,13 +48,12 @@ function App() {
       Shot_Power,
     }))(details);
 
-    console.log(plotData);
-
     X = Object.keys(plotData);
 
     Y = Object.values(plotData);
-    console.log(X);
-    console.log("true", details);
+
+    // Visualization chart is displayed only when any player is selected
+
     if (Object.keys(details).length > 0) {
       return (
         <div>
